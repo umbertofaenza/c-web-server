@@ -4,16 +4,16 @@ This is a lightweight HTTP web server built from scratch in C.
 </br>
 I am currently developing this project as my final assignment for [CS50: Introduction to Computer Science](https://cs50.harvard.edu/x/).
 
-## Current Status: Phase 1 (Basic Routing)
-The project is currently in its initial development phase. The goal of this version was to understand the fundamentals of socket programming and the HTTP protocol.
+## Current Status: Phase 1.1 (Refactored Routing)
+The core architecture has been refactored to separate the routing logic from the file transmission, ensuring cleaner code and better resource management.
 
 ### Features in this version:
 * **Socket Programming**: Manually handling `socket`, `bind`, `listen`, and `accept` using the `<sys/socket.h>` library.
 * **Request Parsing**: Basic extraction of the requested URL path from the HTTP header using `sscanf`.
-* **Manual Routing**: A static routing system that maps specific URL paths (like `/` or `/about`) to local HTML files.
+* **Centralized Routing**: A dedicated `handle_request` function acts as a router, decoupling the decision-making logic from the low-level I/O operations.
 * **Binary File Reading**: Files are read in binary mode (`rb`) to ensure data integrity, allowing for potential future support of images and other non-text assets.
-* **Custom Error Handling**: A dedicated 404 handler that serves a custom `404.html` page when a requested file is not found, with a hardcoded fallback mechanism.
+* **Safety Error Handling**: A "Safety Net" mechanism ensures the server sends a valid HTML response even if the physical `404.html` file is missing or corrupted.
 </br>
 </br>
 ---
-*Note: This is an educational project and is not intended for production use. I am currently working on refactoring the routing system to avoid repetition and support a dynamic Document Root.*
+*Note: This is an educational project and is not intended for production use. I am currently working on implementing a dynamic Document Root.*

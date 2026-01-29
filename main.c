@@ -73,7 +73,7 @@ int main(void) {
         sscanf(buffer, "GET %255s", req_path);
 
         // WRITE
-        if (serve_file(new_socket, req_path) < 0) {
+        if (handle_request(new_socket, req_path) < 0) {
             perror("Error while responding.\n");
             close(new_socket);
             continue;
