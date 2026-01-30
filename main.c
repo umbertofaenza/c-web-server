@@ -5,10 +5,20 @@
 #include <string.h> // To reset the struct memory
 #include <unistd.h> // For the 'close' function
 #include <stdlib.h> // For memory management
-// EXTERNAL FILES
-#include "./functions.c"
+// CUSTOM FILES
+#include "./http_handler.h"
+#include "./custom_routing.h"
 
+struct route routes[] = {
+    {"/", "public/index.html"},
+    {"/about", "public/about.html"},
+    {NULL, NULL}
+};
+
+//* MAIN
 int main(void) {
+    init_routes(routes);
+
     // SOCKET
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {

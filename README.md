@@ -4,16 +4,21 @@ This is a lightweight HTTP web server built from scratch in C.
 </br>
 I am currently developing this project as my final assignment for [CS50: Introduction to Computer Science](https://cs50.harvard.edu/x/).
 
-## Current Status: Phase 1.1 (Refactored Routing)
-The core architecture has been refactored to separate the routing logic from the file transmission, ensuring cleaner code and better resource management.
+## Current Status: Phase 1.2 (Optimized Routing & Modular Design)
+The project has evolved from simple conditional routing to a Hash Table-based routing system.
 
 ### Features in this version:
-* **Socket Programming**: Manually handling `socket`, `bind`, `listen`, and `accept` using the `<sys/socket.h>` library.
-* **Request Parsing**: Basic extraction of the requested URL path from the HTTP header using `sscanf`.
-* **Centralized Routing**: A dedicated `handle_request` function acts as a router, decoupling the decision-making logic from the low-level I/O operations.
-* **Binary File Reading**: Files are read in binary mode (`rb`) to ensure data integrity, allowing for potential future support of images and other non-text assets.
-* **Safety Error Handling**: A "Safety Net" mechanism ensures the server sends a valid HTML response even if the physical `404.html` file is missing or corrupted.
-</br>
-</br>
+* **Hash Table Routing**: Replaced linear search ($O(n)$) with a custom Hash Table ($O(1)$) using the djb2 algorithm for route lookups.
+* **Modular Architecture**: Organized into distinct modules (custom_routing, http_handler, main) with encapsulation using static variables.
+* **Automated Build System**: Includes a Makefile to manage compilation, dependencies, and linking.
+
+### Project structure:
+* **main.c**: Server entry point, socket lifecycle, and route configuration.
+* **custom_routing.c/h**: The routing logic (Hash Table implementation and encapsulation).
+* **http_handler.c/h**: Logic for processing HTTP requests and serving files.
+* **public/**: Directory for static assets.
+
+
+
 ---
-*Note: This is an educational project and is not intended for production use. I am currently working on implementing a dynamic Document Root.*
+*Note: This is an educational project and is not intended for production use. Next steps include implementing MIME type detection for CSS/Image support.*

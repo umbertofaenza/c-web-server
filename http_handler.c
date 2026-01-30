@@ -2,28 +2,22 @@
 #include <unistd.h> 
 #include <stdlib.h> 
 #include <string.h>
-
-// Prototypes
-int handle_request(int sockfd, char*req_path);
-int serve_file(int sockfd, char *file_path, char *res_code);
+// Custom Headers
+#include "./http_handler.h"
+#include "./custom_routing.h"
 
 /**
- * Processes the incoming HTTP request path and determines the resource to serve.
- * Acts as a simple router that maps client URLs (e.g., "/" or "/about") to 
- * local file paths and appropriate HTTP status codes (200 OK or 404 NOT FOUND).
- * It then delegates the actual file transmission to the 'serve_file' function.
+ * Processes the incoming HTTP request path using a Hash Table lookup.
+ * This function queries the routing system to map the client's URL 
+ * (e.g., "/about") to its corresponding local file path. It handles
+ * the 404 logic if the route is not found and delegates the file 
+ * transmission to 'serve_file'.
  */
 int handle_request(int sockfd, char *req_path) {
-    char *file_path = NULL;
-    char *res_code = NULL;
+    char *res_code = "200 OK";
+    char *file_path = lookup_route(req_path);
 
-    if (strcmp(req_path, "/") == 0) {
-        file_path = "public/index.html";
-        res_code = "200 OK";
-    } else if (strcmp(req_path, "/about") == 0) {
-        file_path = "public/about.html";
-        res_code = "200 OK";
-    } else {
+    if (file_path == NULL) {
         file_path = "public/404.html";
         res_code = "404 NOT FOUND";
     }
