@@ -5,6 +5,18 @@
 // Custom Headers
 #include "./http_handler.h"
 #include "./custom_routing.h"
+// Variables
+struct mime_entry mime_types[] = {
+    {"txt",  "text/plain"},
+    {"html", "text/html"},
+    {"css",  "text/css"},
+    {"js",   "application/javascript"},
+    {"png",  "image/png"},
+    {"jpg",  "image/jpeg"},
+    {"jpeg", "image/jpeg"},
+    {"webp", "image/webp"},
+    {NULL,   NULL} 
+};
 
 /**
  * Processes the incoming HTTP request path using a Hash Table lookup.
@@ -50,16 +62,20 @@ int serve_file(int sockfd, char *file_path, char *res_code) {
     char *file_buffer = malloc(file_size);
     fread(file_buffer, sizeof(char), file_size, file);
 
+    // Find MIME type based on file extension
+    char *mime = get_mime(file_path);
+
     // Build header
     char header[512];
     snprintf(
         header, 
         sizeof(header), 
         "HTTP/1.1 %s\r\n"
-        "Content-Type: text/html\r\n"
+        "Content-Type: %s\r\n"
         "Content-Length: %d\r\n"
         "\r\n",
         res_code,
+        mime,
         file_size
     );
 
@@ -87,4 +103,29 @@ int serve_file(int sockfd, char *file_path, char *res_code) {
     fclose(file);
 
     return sent_bytes;
+}
+
+/**
+ * Determines the MIME type of a file based on its extension.
+ * If the extension is missing, malformed, or not found in the predefined lookup table, 
+ * it defaults to "application/octet-stream" to ensure a safe binary transmission.
+ */
+char *get_mime(char *file_path) {
+    // Get the substring starting from the last dot in the file_path (the file extension)
+    char *file_ext = strrchr(file_path, '.');
+    // If there is no file extension or the dot is the last character of the string (besides the null terminator)
+    // return application/octet-stream
+    if (file_ext == NULL || *(file_ext + 1) == '\0') {
+        return "application/octet-stream";
+    }
+
+    // Get the extension without the dot
+    file_ext = file_ext + 1;
+    // Iterate through the mime_types associative array and check for the specific extension
+    for (int i = 0; mime_types[i].extension != NULL; i++) {
+        if (strcasecmp(mime_types[i].extension, file_ext) == 0) return mime_types[i].mime_type;
+    }
+
+    // If the file_path extension was included in the mime_types, return application/octet-stream
+    return "application/octet-stream";
 }
