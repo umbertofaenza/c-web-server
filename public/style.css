@@ -1,0 +1,37 @@
+body.dark-mode {
+    background-color: #181818;
+    color: #ddd;
+}
+
+body.light-mode {
+    background-color: #ddd;
+    color: #181818;
+}
+
+.main-container {
+    text-align: center;
+}
+
+.cs50-logo {
+    max-width: 25%;
+    border-radius: 1rem;
+}
+
+button.mode-switch {
+    margin-top: 1rem;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 1rem;
+
+}
+
+button.mode-switch.btn-dark-mode {
+    background-color: #ddd;
+    color: #181818;
+}
+
+button.mode-switch.btn-light-mode {
+    background-color: #181818;
+    color: #ddd;
+}
