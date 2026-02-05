@@ -23,9 +23,21 @@ struct node {
     char *n_file_path;
     struct node *next;
 };
+/**
+ * A mapping structure that associates a file extension with its 
+ * corresponding MIME type.
+ * This structure is used by the server's MIME-type detection system 
+ * to ensure that the 'Content-Type' header in the HTTP response 
+ * accurately reflects the nature of the file being served (e.g., ".css" -> "text/css").
+ */
+struct mime_entry {
+    char *extension;
+    char *mime_type;
+};
 
 // Prototypes
 int init_routes(struct route routes[]);
 char *lookup_route(char *req_path);
+char *get_mime(char *file_path);
 
 #endif
