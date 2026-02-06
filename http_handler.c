@@ -126,6 +126,6 @@ char *get_mime(char *file_path) {
         if (strcasecmp(mime_types[i].extension, file_ext) == 0) return mime_types[i].mime_type;
     }
 
-    // If the file_path extension was included in the mime_types, return application/octet-stream
+    // If the file_path extension was not included in the mime_types, return application/octet-stream
     return "application/octet-stream";
 }
