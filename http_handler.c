@@ -2,6 +2,7 @@
 #include <unistd.h> 
 #include <stdlib.h> 
 #include <string.h>
+#include <linux/limits.h>
 // Custom Headers
 #include "./http_handler.h"
 #include "./custom_routing.h"
@@ -19,22 +20,39 @@ struct mime_entry mime_types[] = {
 };
 
 /**
- * Processes the incoming HTTP request path using a Hash Table lookup.
- * This function queries the routing system to map the client's URL 
- * (e.g., "/about") to its corresponding local file path. It handles
- * the 404 logic if the route is not found and delegates the file 
- * transmission to 'serve_file'.
+ * Handles the routing logic for incoming HTTP requests.
+ * Implements a two-phases lookup strategy:
+ * 1. Hash Table Lookup (High Priority): Checks for explicit route mappings 
+ * 2. Dynamic File Discovery (Fallback): Attempts to locate physical assets 
+ * within the 'public/' directory if no explicit route exists.
  */
 int handle_request(int sockfd, char *req_path) {
-    char *res_code = "200 OK";
-    char *file_path = lookup_route(req_path);
-
-    if (file_path == NULL) {
-        file_path = "public/404.html";
-        res_code = "404 NOT FOUND";
+    // Security Check: prevent "Directory Traversal" attacks by blocking any path containing ".."
+    if (strstr(req_path, "..") != NULL)  {
+        return serve_file(sockfd, "public/404.html", "404 NOT FOUND");
     }
 
-    return serve_file(sockfd, file_path, res_code);
+    // PHASE A: Hash Table Lookup (Priority)
+    // Check if the path is explicitly mapped in our data structure
+    char *file_path = lookup_route(req_path);
+    if (file_path != NULL) return serve_file(sockfd, file_path, "200 OK");
+
+    // PHASE B: Dynamic File Discovery (Fallback)
+    // If no route exists in the table, we search for a physical file in the 'public/' folder
+    char full_path[PATH_MAX];
+    // Strip the leading slash from req_path if it exists to prevent malformed paths like "public//style.css"
+    const char *clean_path = (req_path[0] == '/') ? &req_path[1] : req_path;
+    // Use snprintf to safely concatenate the directory and file name
+    snprintf(full_path, sizeof(full_path), "public/%s", clean_path);
+    
+    // Verify if the requested file actually exists on the disk before attempting to serve it
+    if (access(full_path, F_OK) < 0) {
+        // 404 NOT FOUND: the requested resource does not exist in the table or the file system
+        return serve_file(sockfd, "public/404.html", "404 NOT FOUND");
+    }
+
+    // Success: serve the file discovered via the dynamic routing
+    return serve_file(sockfd, full_path, "200 OK");
 }
 
 /**

@@ -12,9 +12,6 @@
 struct route routes[] = {
     {"/", "public/index.html"},
     {"/about", "public/about.html"},
-    {"/style.css", "public/style.css"},
-    {"/index.js", "public/index.js"},
-    {"/cs50_logo.webp", "public/cs50_logo.webp"},
     {NULL, NULL}
 };
 
