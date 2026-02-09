@@ -5,10 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - UF's Web Server</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="index.js" defer></script>
 </head>
 
-<body>
-    <h1>Oops! Page not found.</h1>
+<body class="dark-mode">
+    <div class="main-container">
+        <h1>Oops! Page not found.</h1>
+        <nav class="main-nav">
+            <a href="/" class="nav-item">Home</a>
+            <a href="/about" class="nav-item">About</a>
+        </nav>
+        <img src="images/david_404.webp" alt="David 404" class="david-404">
+        <button class="mode-switch">Switch to Light Mode</button>
+    </div>
 </body>
 
 </html>

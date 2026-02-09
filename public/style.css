@@ -1,15 +1,31 @@
+:root {
+    --dark-color: #181818;
+    --light-color: #dddddd;
+    --harvard-red: #A42136;
+    --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-main-size: 1.1rem;
+}
+
+body {
+    font-family: var(--font-main);
+    font-size: var(--font-main-size);
+}
+
 body.dark-mode {
-    background-color: #181818;
-    color: #ddd;
+    background-color: var(--dark-color);
+    color: var(--light-color);
 }
 
 body.light-mode {
-    background-color: #ddd;
-    color: #181818;
+    background-color: var(--light-color);
+    color: var(--dark-color);
 }
 
 .main-container {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .cs50-logo {
@@ -20,18 +36,44 @@ body.light-mode {
 button.mode-switch {
     margin-top: 1rem;
     border: none;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
     cursor: pointer;
-    border-radius: 1rem;
+    border-radius: 2rem;
 
+    font-family: var(--font-main);
+    font-size: var(--font-main-size);
 }
 
 button.mode-switch.btn-dark-mode {
-    background-color: #ddd;
-    color: #181818;
+    background-color: var(--light-color);
+    color: var(--dark-color);
 }
 
 button.mode-switch.btn-light-mode {
-    background-color: #181818;
-    color: #ddd;
+    background-color: var(--dark-color);
+    color: var(--light-color);
+}
+
+.main-nav {
+    margin: 0 0 2rem 0;
+}
+
+.main-nav .nav-item {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 0.2rem;
+    text-decoration: none;
+
+    background-color: var(--harvard-red);
+    color: var(--light-color);
+}
+
+.about-par {
+    text-align: justify;
+    width: 50%;
+}
+
+.david-404 {
+    max-width: 15%;
+    border-radius: 1rem;
 }

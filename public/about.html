@@ -5,10 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About - UF's Web Server</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="index.js" defer></script>
 </head>
 
-<body>
-    <h1>About this server...</h1>
+<body class="dark-mode">
+    <div class="main-container">
+        <h1>About this server...</h1>
+        <nav class="main-nav">
+            <a href="/" class="nav-item">Home</a>
+            <a href="/about" class="nav-item">About</a>
+        </nav>
+        <p class="about-par">
+            This is a lightweight HTTP web server built from scratch in C as a final project for CS50. It is
+            designed to demonstrate the core principles of the HTTP/1.1 protocol, low-level socket programming, and
+            data management.
+        </p>
+        <p class="about-par">
+            At its heart, the server employs a hybrid routing architecture: it utilizes a Hash
+            Table for prioritized static routes while maintaining a dynamic fallback system for assets stored in the
+            public/ directory. It also has automated MIME type detection and security filters to prevent directory
+            traversal attacks. Hope you like it!
+        </p>
+        <p class="about-par">
+            It also has automated MIME type detection and security filters to prevent directory
+            traversal attacks. Hope you like it!
+        </p>
+        <button class="mode-switch">Switch to Light Mode</button>
+    </div>
 </body>
 
 </html>
