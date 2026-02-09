@@ -80,7 +80,7 @@ int serve_file(int sockfd, char *file_path, char *res_code) {
     char *file_buffer = malloc(file_size);
     if (file_buffer == NULL) {
         perror("Failed to allocate memory for file buffer.\n");
-        close(file);
+        fclose(file);
         return -1;
     }
     fread(file_buffer, sizeof(char), file_size, file);
