@@ -70,7 +70,7 @@ int main(void) {
         // Create a buffer and store the request text in it
         char buffer[1024];
         int bytes_read = read(new_socket, buffer, sizeof(buffer) - 1);
-        if (bytes_read < 0) {
+        if (bytes_read <= 0) {
             perror("Error while reading.\n");
             close(new_socket);
             continue;
@@ -80,7 +80,11 @@ int main(void) {
 
         // 'Strip' the request text to get the specific request path
         char req_path[256];
-        sscanf(buffer, "GET %255s", req_path);
+        if (sscanf(buffer, "GET %255s", req_path) != 1) {
+            perror("Malformed request received.\n");
+            close(new_socket); 
+            continue; 
+        }
 
         // WRITE
         if (handle_request(new_socket, req_path) < 0) {
