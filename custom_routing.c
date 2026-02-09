@@ -10,13 +10,13 @@ static struct node *routes_table[TABLE_SIZE];
 /* Implements the "djb2" Hash Function by Dan Bernstein. */
 static unsigned long hash(char *str)
 {
-    unsigned long hash = 5381;
+    unsigned long hash_val = 5381;
     int c;
 
     while ((c = *str++))
-        hash = ((hash << 5) + hash) + c;
+        hash_val = ((hash_val << 5) + hash_val) + c;
 
-    return hash;
+    return hash_val;
 }
 
 /**
