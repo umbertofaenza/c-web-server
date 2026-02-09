@@ -124,6 +124,12 @@ int serve_file(int sockfd, char *file_path, char *res_code) {
     free(file_buffer);
     // Close file
     fclose(file);
+    
+    // Print header
+    printf("--------------------------\n");
+    printf("SERVER'S RESPONSE HEADER: \n");
+    printf("--------------------------\n");
+    printf("%s\n", header);
 
     return sent_bytes;
 }

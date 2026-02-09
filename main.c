@@ -76,6 +76,12 @@ int main(void) {
             continue;
         }
         buffer[bytes_read] = '\0';
+        
+        // Print request header
+        printf("\n");
+        printf("--------------------------\n");
+        printf("CLIENT'S REQUEST HEADER: \n");
+        printf("--------------------------\n");
         printf("%s\n", buffer);
 
         // 'Strip' the request text to get the specific request path
